@@ -2,10 +2,8 @@
     <div class="row">
         <label for="nome" class="col-form-label col-sm-12">Nome</label>
         <div class="col-sm-12">
-            <input #nome="ngModel" type="text" class="form-control" [class.is-invalid]="!nome.valid && nome.touched" id="nome" placeholder="Nome" name="nome" [ngModel]="usuario.nome" required>
-            <div id="nomeFeedback" class="invalid-feedback">
-                Nome é obrigatório.
-            </div>
+            <input #nome="ngModel" type="text" class="form-control" [ngClass]="aplicaCssErro(nome)" id="nome" placeholder="Nome" name="nome" [ngModel]="usuario.nome" required>
+            <app-campo-control-erro  [mostrarErro]="verificaValidTouched(nome)" msgErro="Nome é obrigatório."></app-campo-control-erro>
         </div>
     </div>
     <!-- Aviso "discreto" -->
@@ -13,29 +11,23 @@
     <div class="row">
         <label for="email" class="col-form-label col-sm-12">Email</label>
         <div class="col-sm-12">
-            <input #email="ngModel" type="email" class="form-control" id="email" [class.is-invalid]="!email.valid && email.touched" placeholder="nome@email.com" name="email" [ngModel]="usuario.email" required email>
-            <div id="emailFeedback" class="invalid-feedback">
-                Email é obrigatório.
-            </div>
+            <input #email="ngModel" type="email" class="form-control" id="email" [ngClass]="aplicaCssErro(email)" placeholder="nome@email.com" name="email" [ngModel]="usuario.email" required email>
+            <app-campo-control-erro  [mostrarErro]="verificaValidTouched(email)" msgErro="Email é obrigatório."></app-campo-control-erro>
         </div>
     </div>
     <div class="row">
         <div class="col-md-3">
             <label for="cep" class="col-form-label">CEP</label>
             <div>
-                <input type="text" id="cep" class="form-control" [class.is-invalid]="!cep.valid && cep.touched" name="cep" ngModel #cep="ngModel" required>
-                <div id="cepFeedback" class="invalid-feedback">
-                    CEP é obrigatório.
-                </div>
+                <input type="text" id="cep" class="form-control" [ngClass]="aplicaCssErro(cep)" name="cep" ngModel #cep="ngModel" required>
+                <app-campo-control-erro  [mostrarErro]="verificaValidTouched(cep)" msgErro="CEP é obrigatório."></app-campo-control-erro>
             </div>
         </div>
         <div class="col-md-3">
             <label for="numero" class="col-form-label">Número</label>
             <div>
-                <input type="text" id="numero" class="form-control" [class.is-invalid]="!numero.valid && numero.touched" name="numero" ngModel #numero="ngModel" required>
-                <div id="numeroFeedback" class="invalid-feedback">
-                    CEP é obrigatório.
-                </div>
+                <input type="text" id="numero" class="form-control" [ngClass]="aplicaCssErro(numero)" name="numero" ngModel #numero="ngModel" required>
+                <app-campo-control-erro  [mostrarErro]="verificaValidTouched(numero)" msgErro="Número é obrigatório."></app-campo-control-erro>
             </div>
         </div>
         <div class="col-md-6">
@@ -48,38 +40,30 @@
     <div class="row">
         <label for="rua" class="col-form-label col-sm-12">Rua</label>
         <div class="col-sm-12">
-            <input #rua="ngModel" ngModel type="text" class="form-control" [class.is-invalid]="!rua.valid && rua.touched" id="rua" name="rua" required>
-            <div id="ruaFeedback" class="invalid-feedback">
-                Rua é obrigatório.
-            </div>
+            <input #rua="ngModel" ngModel type="text" class="form-control" [ngClass]="aplicaCssErro(rua)" id="rua" name="rua" required>
+            <app-campo-control-erro  [mostrarErro]="verificaValidTouched(rua)" msgErro="Rua é obrigatório."></app-campo-control-erro>
         </div>
     </div>
     <div class="row">
         <div class="col-md-5">
             <label for="bairro" class="col-form-label">Bairro</label>
             <div>
-                <input #bairro="ngModel" ngModel type="text" class="form-control" [class.is-invalid]="!bairro.valid && bairro.touched" id="bairro" name="bairro" required>
-                <div id="bairroFeedback" class="invalid-feedback">
-                    Bairro é obrigatório.
-                </div>
+                <input #bairro="ngModel" ngModel type="text" class="form-control" [ngClass]="aplicaCssErro(bairro)" id="bairro" name="bairro" required>
+                <app-campo-control-erro  [mostrarErro]="verificaValidTouched(bairro)" msgErro="Bairro é obrigatório."></app-campo-control-erro>
             </div>
         </div>
         <div class="col-md-4">
             <label for="cidade" class="col-form-label">Cidade</label>
             <div>
-                <input #cidade="ngModel" ngModel type="text" class="form-control" [class.is-invalid]="!cidade.valid && cidade.touched" id="cidade" name="cidade" required>
-                <div id="cidadeFeedback" class="invalid-feedback">
-                    Cidade é obrigatório.
-                </div>
+                <input #cidade="ngModel" ngModel type="text" class="form-control" [ngClass]="aplicaCssErro(cidade)" id="cidade" name="cidade" required>
+                <app-campo-control-erro  [mostrarErro]="verificaValidTouched(cidade)" msgErro="Cidade é obrigatório."></app-campo-control-erro>
             </div>
         </div>
         <div class="col-md-3">
             <label for="estado" class="col-form-label">Estado</label>
             <div>
-                <input #estado="ngModel" ngModel type="text" class="form-control" [class.is-invalid]="!estado.valid && estado.touched" id="estado" name="estado" required>
-                <div id="estadoFeedback" class="invalid-feedback">
-                    Estado é obrigatório.
-                </div>
+                <input #estado="ngModel" ngModel type="text" class="form-control" [ngClass]="aplicaCssErro(estado)" id="estado" name="estado" required>
+                <app-campo-control-erro  [mostrarErro]="verificaValidTouched(estado)" msgErro="Estado é obrigatório."></app-campo-control-erro>
             </div>
         </div>
     </div>
