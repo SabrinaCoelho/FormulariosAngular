@@ -9,8 +9,8 @@ import { map } from 'rxjs/operators';
 })
 export class TemplateFormComponent implements OnInit {
   usuario: any = {
-    nome: "Dummy J",
-    email: "dummy@email.com"
+    nome: null,
+    email: null
   }
   constructor(private http: HttpClient) { }
 
@@ -18,7 +18,6 @@ export class TemplateFormComponent implements OnInit {
   }
   onSubmit(form: any):void{
     console.log(form);
-    //console.log(this.usuario);
   }
   verificaValidTouched(campo: any){
     return !campo.valid && campo.touched;
@@ -28,13 +27,54 @@ export class TemplateFormComponent implements OnInit {
       'is-invalid': this.verificaValidTouched(campo)
     }
   }
-  consultaCEP(cep: any){
-    var cep = cep.value.replace(/\D/g, '');
-    var validaCep = /^[0-9]{8}$/;
+  consultaCEP(cep: any, form: any){
+    var cep = cep.value.replace(/\D/g, '');//filtra os numeros
+    var validaCep = /^[0-9]{8}$/;//expressao regular para validar o cep
     
     if(validaCep.test(cep)){
+      this.resetaDadosForm(form);
+
       this.http.get<JSON>(`//viacep.com.br/ws/${cep}/json/`)
-      .subscribe(dados => console.log(dados));
+      .subscribe(dados => this.populaDadosForm(dados,form));
     }
+  }
+  populaDadosForm(dados: any, formulario: any){
+    /* seta valores para todos os campos do form
+    formulario.setValue({
+      nome: formulario.value.nome,
+      email: formulario.value.email,
+      endereco: {
+        cep: dados.cep,
+        numero: "",
+        complemento: dados.complemento,
+        rua: dados.logradouro,
+        bairro: dados.bairro,
+        cidade: dados.localidade,
+        estado: dados.uf
+      }
+    }); */
+
+    formulario.form.patchValue({//seta valores campos especificos do form
+      endereco: {
+        cep: dados.cep,
+        numero: "",
+        complemento: dados.complemento,
+        rua: dados.logradouro,
+        bairro: dados.bairro,
+        cidade: dados.localidade,
+        estado: dados.uf
+      }
+    });
+  }
+  resetaDadosForm(formulario: any){
+    formulario.form.patchValue({
+      endereco: {
+        complemento: null,
+        rua: null,
+        bairro: null,
+        cidade: null,
+        estado:null
+      }
+    });
   }
 }
