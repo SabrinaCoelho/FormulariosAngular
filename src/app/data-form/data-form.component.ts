@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
@@ -10,7 +11,9 @@ export class DataFormComponent implements OnInit {
 
   formulario: FormGroup;//1° maneira
   
-  constructor(private formBuilder: FormBuilder) { }//2° maneira
+  constructor(
+    private formBuilder: FormBuilder,
+    private http: HttpClient) { }//2° maneira
 
   ngOnInit(): void {
     //1° maneira -> mais verboso
@@ -24,6 +27,12 @@ export class DataFormComponent implements OnInit {
       nome: [null],
       email: [null]
     });
+  }
+
+  onSubmit(){
+    console.log(this.formulario);
+    this.http.post('https://httpbin.org/post', JSON.stringify(this.formulario.value))
+    .subscribe(dados => console.log(dados));
   }
 
 }
