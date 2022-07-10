@@ -25,7 +25,16 @@ export class DataFormComponent implements OnInit {
     //2° maneira -> forma menos verbosa do modo comentado adima
     this.formulario = this.formBuilder.group({
       nome: [null, [Validators.required, Validators.minLength(3)]],
-      email: [null, [Validators.required, Validators.email]]
+      email: [null, [Validators.required, Validators.email]],
+      endereco: this.formBuilder.group({
+        cep: [null, [Validators.required]],
+        numero: [null, [Validators.required]],
+        complemento: [null],
+        rua: [null, [Validators.required]],
+        bairro: [null, [Validators.required]],
+        cidade: [null, [Validators.required]],
+        estado: [null, [Validators.required]]
+      })
     });
   }
 
@@ -44,7 +53,7 @@ export class DataFormComponent implements OnInit {
     this.formulario.reset();
   }
 
-  verificaValidTouched(campo: any){
+  verificaValidTouched(campo: string){
     return !this.formulario.get(campo).valid && this.formulario.get(campo).touched;
   }
   verificaEmailValid(){
@@ -55,7 +64,7 @@ export class DataFormComponent implements OnInit {
     }
     return false;
   }
-  aplicaCssErro(campo: any){
+  aplicaCssErro(campo: string){
     return {
       'is-invalid': this.verificaValidTouched(campo)
     }
