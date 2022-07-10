@@ -18,6 +18,8 @@ export class TemplateFormComponent implements OnInit {
   }
   onSubmit(form: any):void{
     console.log(form);
+    this.http.post('https://httpbin.org/post', JSON.stringify(form.value))
+    .subscribe(dados => console.log(dados));
   }
   verificaValidTouched(campo: any){
     return !campo.valid && campo.touched;
