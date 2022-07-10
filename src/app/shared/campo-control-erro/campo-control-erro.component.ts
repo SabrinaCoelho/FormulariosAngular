@@ -6,8 +6,8 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./campo-control-erro.component.css']
 })
 export class CampoControlErroComponent implements OnInit {
-  @Input() mostrarErro: boolean | undefined;
-  @Input() msgErro: string | undefined;
+  @Input() mostrarErro: boolean;
+  @Input() msgErro: string;
 
   constructor() { }
 

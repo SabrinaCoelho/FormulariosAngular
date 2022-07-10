@@ -2,15 +2,16 @@
     <div class="row">
         <label for="nome" class="col-form-label col-sm-12">Nome</label>
         <div class="col-sm-12">
-            <input type="text" class="form-control" id="nome" placeholder="Nome" formControlName="nome">
+            <input type="text" class="form-control" id="nome" placeholder="Nome" formControlName="nome" [ngClass]="aplicaCssErro('nome')">
+            <app-campo-control-erro [mostrarErro]="verificaValidTouched('nome')" msgErro="Nome é obrigatório."></app-campo-control-erro>
         </div>
     </div>
-    <!-- Aviso "discreto" -->
-    <!-- <small *ngIf="!nome.valid && nome.touched" class="text-danger">Nome é obrigatório.</small> -->
     <div class="row">
         <label for="email" class="col-form-label col-sm-12">Email</label>
         <div class="col-sm-12">
-            <input type="email" class="form-control" id="email" placeholder="nome@email.com" formControlName="email" >
+            <input type="email" class="form-control" id="email" placeholder="nome@email.com" formControlName="email" [ngClass]="aplicaCssErro('email')">
+            <app-campo-control-erro [mostrarErro]="verificaValidTouched('email')" msgErro="Email é obrigatório."></app-campo-control-erro>
+            <app-campo-control-erro [mostrarErro]="verificaEmailValid()" msgErro="Formato inválido."></app-campo-control-erro>
         </div>
     </div>
     <!-- <div ngModelGroup="endereco">
