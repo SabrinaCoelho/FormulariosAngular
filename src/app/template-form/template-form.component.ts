@@ -45,8 +45,10 @@ export class TemplateFormComponent implements OnInit {
     }
   }
   populaDadosForm(dados: any, formulario: any){
-    /* seta valores para todos os campos do form
-    formulario.setValue({
+    /*seta valores para todos os campos do form
+    * formulario é uma instancia do NgForm e o setValue é um método deste
+    */
+    /* formulario.setValue({
       nome: formulario.value.nome,
       email: formulario.value.email,
       endereco: {
@@ -60,7 +62,11 @@ export class TemplateFormComponent implements OnInit {
       }
     }); */
 
-    formulario.form.patchValue({//seta valores campos especificos do form
+    /*
+    * Abaixo, seta valores em campos especificos do form.
+    * Acessamos a propriedade "form" (instancia de FormGroup) e esta tem o método patchValue
+    */
+    formulario.form.patchValue({
       endereco: {
         cep: dados.cep,
         numero: "",

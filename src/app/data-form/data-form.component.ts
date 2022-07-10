@@ -69,4 +69,47 @@ export class DataFormComponent implements OnInit {
       'is-invalid': this.verificaValidTouched(campo)
     }
   }
+
+  consultaCEP(){
+    let cep = this.formulario.get('endereco.cep').value;
+    cep = cep.replace(/\D/g, '');//filtra os numeros
+    var validaCep = /^[0-9]{8}$/;//expressao regular para validar o cep
+    
+    if(validaCep.test(cep)){
+      this.resetaDadosForm();
+
+      this.http.get<JSON>(`//viacep.com.br/ws/${cep}/json/`)
+      .subscribe(dados => this.populaDadosForm(dados));
+    }
+  }
+  populaDadosForm(dados: any){
+
+    this.formulario.patchValue({//seta valores campos especificos do form de uma vez
+      endereco: {
+        cep: dados.cep,
+        numero: "",
+        complemento: dados.complemento,
+        rua: dados.logradouro,
+        bairro: dados.bairro,
+        cidade: dados.localidade,
+        estado: dados.uf
+      }
+    });
+
+    this.formulario.get("nome").setValue("Dummy");//Exemplo de comportamento do setValue aqui no Data Driven
+    /*no Data Driven o setValue tem um comportamento diferente e permite essa ação
+    * (de setar um valor para apenas um) porque estamos acessando o diretamente controle (instancia de FormControl)
+    */
+  }
+  resetaDadosForm(){
+    this.formulario.patchValue({
+      endereco: {
+        complemento: null,
+        rua: null,
+        bairro: null,
+        cidade: null,
+        estado:null
+      }
+    });
+  }
 }
