@@ -1,3 +1,6 @@
+import { ConsultaCepService } from './../shared/services/consulta-cep.service';
+import { EstadoBr } from './../shared/models/estado-br';
+import { DropdownService } from './../shared/services/dropdown.service';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -10,10 +13,12 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 export class DataFormComponent implements OnInit {
 
   formulario: FormGroup;//1° maneira
-  
+  estados: EstadoBr[];
   constructor(
     private formBuilder: FormBuilder,
-    private http: HttpClient) { }//2° maneira
+    private http: HttpClient,
+    private dropdownService: DropdownService,
+    private cepService: ConsultaCepService) { }//2° maneira
 
   ngOnInit(): void {
     //1° maneira -> mais verboso
@@ -36,6 +41,14 @@ export class DataFormComponent implements OnInit {
         estado: [null, [Validators.required]]
       })
     });
+    this.dropdownService.getEstadosBr()
+    .subscribe((dados)=> {
+      console.log(dados);
+      this.estados = dados;
+    },
+    (error) => {
+      console.log(error);
+    })
   }
 
   onSubmit(){
@@ -51,14 +64,12 @@ export class DataFormComponent implements OnInit {
     else{
       console.log("Inválido.");
       this.verificaValidacoesForm(this.formulario);
-      
-      
     }
     
   }
   verificaValidacoesForm(formGroup: FormGroup){
     Object.keys(formGroup.controls).forEach(campo => {
-      console.log(campo);
+      //console.log(campo);
       const controle = formGroup.get(campo);
       controle.markAsTouched();
       if(controle instanceof FormGroup){
@@ -91,15 +102,13 @@ export class DataFormComponent implements OnInit {
 
   consultaCEP(){
     let cep = this.formulario.get('endereco.cep').value;
-    cep = cep.replace(/\D/g, '');//filtra os numeros
-    var validaCep = /^[0-9]{8}$/;//expressao regular para validar o cep
-    
-    if(validaCep.test(cep)){
-      this.resetaDadosForm();
+    //cep = cep.replace(/\D/g, '');//filtra os numeros
 
-      this.http.get<JSON>(`//viacep.com.br/ws/${cep}/json/`)
-      .subscribe(dados => this.populaDadosForm(dados));
+    if(cep != null && cep !== ''){
+      this.cepService.consultaCEP(cep)
+        .subscribe(dados => this.populaDadosForm(dados));
     }
+    
   }
   populaDadosForm(dados: any){
 
